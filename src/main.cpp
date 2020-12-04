@@ -22,26 +22,92 @@ void setupGPIO()
     DDRB  = 0b00001000;   // PB3 output
     DDRD  = 0b01100000;   // PD5 and PD6 outputs
   
-    DDRD |= (1<<PD5);
-    DDRD |= (1<<PD6);
-    DDRD |= (1<<PD7);
-    DDRB |= (1<<PB0);  
+    DDRD |= (1<<PD5); //R
+    DDRD |= (1<<PD6); //E
+    DDRD |= (1<<PD7); //A
+    DDRB |= (1<<PB0); //G
     DDRB |= (1<<PB6);  
-    DDRB |= (1<<PB7);  
+    DDRB |= (1<<PB7);  //D
 }
+
+void setE(bool on)
+{
+    if(on)
+    {
+        PORTD &= ~_BV(PD6);
+    }else
+    {
+        PORTD |= _BV(PD6);
+    }
+}
+
+void setD(bool on)
+{
+    if(on)
+    {
+        PORTB &= ~_BV(PB7);
+    }else
+    {
+        PORTB |= _BV(PB7);
+    }
+}
+
+void setG(bool on)
+{
+    if(on)
+    {
+        PORTB &= ~_BV(PB0);
+    }else
+    {
+        PORTB |= _BV(PB0);
+    }
+}
+
+void setA(bool on)
+{
+    if(on)
+    {
+        PORTD &= ~_BV(PD7);
+    }else
+    {
+        PORTD |= _BV(PD7);
+    }
+}
+
+void setR(bool on)
+{
+    if(on)
+    {
+        PORTD &= ~_BV(PD5);
+    }else
+    {
+        PORTD |= _BV(PD5);
+    }
+}
+
 
 void setRed(bool on)
 {
     if(on)
     {
-        PORTD |= _BV(PD5);
-        PORTD |= _BV(PD6);
-        PORTD |= _BV(PD7);
+        //PORTD |= _BV(PD5);
+        //PORTD |= _BV(PD6);
+        //PORTD |= _BV(PD7);
+
+        //PORTB |= _BV(PB0);
+        //PORTB |= _BV(PB6);
+        PORTB |= _BV(PB7);
+
     }else
     {
-        PORTD &= ~_BV(PD5);
-        PORTD &= ~_BV(PD6);
-        PORTD &= ~_BV(PD7);
+        //PORTD &= ~_BV(PD5);
+        //PORTD &= ~_BV(PD6);
+        //PORTD &= ~_BV(PD7);
+
+        //PORTB &= ~_BV(PB0);
+        //PORTB &= ~_BV(PB6);
+        PORTB &= ~_BV(PB7);
+
     }
 }
 
@@ -146,11 +212,16 @@ void wakeUpSequence()
 int main (void) 
 {   
     setupGPIO();
+    setE(false);
+    setD(false);
+    setG(false);
+    setA(false);
+    setR(false);
     while(true)
     {
-      setRed(true);
-      _delay_ms(100);
-      setRed(false);
-      _delay_ms(100);
+      setR(true);
+      _delay_ms(60);
+      setR(false);
+      _delay_ms(400);
     }
 }
